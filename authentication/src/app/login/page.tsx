@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import { MailOpen } from "lucide-react";
 
 export default function login() {
   const router = useRouter();
@@ -45,6 +47,15 @@ export default function login() {
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function () {
+        window.history.go(1);
+      };
+    }
+  }, []);
+
+  useEffect(() => {
     if (user.email.length > 0 && user.password.length > 0) {
       setButtonDisabled(false);
     } else {
@@ -62,7 +73,6 @@ export default function login() {
           <h1 className="text-3xl font-bold text-blue-500 italic p-2">
             {loading ? "working..." : "Login Page"}
           </h1>
-
           <label
             htmlFor="email"
             className="text-white
@@ -80,7 +90,6 @@ export default function login() {
             }}
             className="rounded-2xl bg-white text-center focus:placeholder-transparent mb-4"
           />
-
           <label
             htmlFor="password"
             className="text-white
@@ -98,17 +107,19 @@ export default function login() {
             }}
             className="rounded-2xl bg-white text-center  focus:placeholder-transparent mb-4"
           />
-
           <button
             className="border border-white text-center text-white font-bold rounded-2xl p-2 w-1/2"
             onClick={onLogin}
           >
             login
           </button>
-
           <Link href="/signup" className="text-blue-300 italic mt-2">
             Visit SignUp Page
           </Link>
+          <Button>
+            <MailOpen />
+            Click Me
+          </Button>
         </div>
       </div>
     </>

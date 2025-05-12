@@ -1,26 +1,30 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
- 
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-const path = request.nextUrl.pathname;
+  const path = request.nextUrl.pathname;
+  const token = request.cookies.get("Token")?.value;
+  console.log("pathhhhhhhhhh",path)
 
-const isPublicPath = path === '/login' || path === '/signup'
-const token = request.cookies.get("Token")?.value || ''
+  const isAuthPage = path === "/login" || path === "/signup";
+  const isProtectedPage = path === "/profile";
 
-if(isPublicPath && token){
-  return NextResponse.redirect(new URL('/', request.nextUrl));
-  
+  console.log("tttttttttttttt", token)
+
+
+  if (isAuthPage && token) {
+    return NextResponse.redirect(new URL("/profile", request.url));
+  }
+
+
+  if (isProtectedPage && !token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+
+  return NextResponse.next();
 }
-if (!isPublicPath && !token) {
-  return NextResponse.redirect(new URL('/login', request.url));
-}
-
-
-}
- 
 
 export const config = {
-matcher: ['/', '/profile', '/login', '/signup', '/((?!_next/static|_next/image|favicon.ico).*)'],
-
-} 
+  matcher: ["/login", "/signup", "/profile"],
+};

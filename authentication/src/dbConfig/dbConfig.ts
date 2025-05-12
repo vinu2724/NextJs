@@ -6,6 +6,7 @@ import mongoose from "mongoose";
   
    await mongoose.connect(uri)
    const connection = mongoose.connection;
+   
 
    connection.on("connected",()=>{
     console.log("MongoDB Connected Successfully")

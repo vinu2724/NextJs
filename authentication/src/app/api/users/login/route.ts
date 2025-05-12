@@ -33,10 +33,11 @@ try{
 
    //create token data
    const tokenData = {
-     id: user._id,
-     username: user.usernmae,
-     email: user.email,    
-   }
+    id: user._id,
+    username: user.username, 
+    email: user.email,
+  };
+  
  
    //create token 
    const token = await jwt.sign(tokenData,process.env.TOKEN_SECRET!,{expiresIn:"1h"})
@@ -46,10 +47,14 @@ try{
      message: "login successful",
      success: true
    })
- 
-   response.cookies.set("Token",token,{httpOnly:true}
- 
-   )
+   
+   response.cookies.set("Token", token, {
+    httpOnly: true,
+    path: "/", // 👈 ensures cookie is sent for all routes
+    sameSite: "lax", // 👈 default but safe
+    secure: process.env.NODE_ENV === "production", // use secure only in prod
+  });
+  
    return response
 
    

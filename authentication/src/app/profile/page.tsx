@@ -4,6 +4,8 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { log } from "console";
+import { Component } from "@/components/Charts/chart";
+import { CircularChart } from "@/components/Charts/CircularChart";
 
 export default function profile() {
   const router = useRouter();
@@ -28,6 +30,10 @@ export default function profile() {
       >
         LogOut
       </button>
+      <div className="  h-1/2 w-auto">
+        <Component />
+        <CircularChart />
+      </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@ type CardProps = {
   title: string;
   description: string;
   imageUrl: string;
-};
+}
 
 const cardData: CardProps[] = [
   {
